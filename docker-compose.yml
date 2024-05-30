@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  raychat:
+    build: .
+    ports:
+      - '5000:5000'
+    depends_on:
+      - redis
+      - mongo
+    restart: always
+    # volumes:
+    #   - ./node-app:/usr/src/app # Mount local directory 'node-app' to container's '/usr/src/app'
+    #   - node_modules:/usr/src/app/node_modules # Mount volume for 'node_modules'
+
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    restart: always
+    volumes:
+      - redis_data:/data # Mount volume named 'redis_data' to store Redis data
+  mongo:
+    image: mongo
+    ports:
+      - '27017:27017'
+    restart: always
+    volumes:
+      - mongo_data:/data/db # Mount volume named 'mongo_data' to store MongoDB data
+
+volumes:
+  redis_data:
+  mongo_data:
